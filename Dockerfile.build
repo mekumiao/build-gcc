@@ -1,0 +1,23 @@
+FROM centos:centos7.9.2009
+
+RUN yum update -y && yum install -y \
+  wget \
+  tar \
+  bzip2 \
+  zlib-devel \
+  gcc \
+  gcc-c++ \
+  texinfo \
+  make
+
+# RUN yum groupinstall -y "Development tools"
+# RUN yum update -y && yum groupinstall -y "Development tools" && yum install -y \
+#   wget \
+#   vim \
+#   bzip2 \
+#   gcc \
+#   make \
+#   glibc-devel.i686 \
+#   libgcc.i686 \
+#   gcc-c++ \
+#   cmake

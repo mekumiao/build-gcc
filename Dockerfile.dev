@@ -1,0 +1,33 @@
+FROM centos:centos7.9.2009
+
+RUN yum groupinstall -y "Development tools"
+RUN yum update -y && yum groupinstall -y "Development tools" && yum install -y \
+  wget \
+  vim \
+  bzip2 \
+  gcc \
+  make \
+  glibc-devel.i686 \
+  libgcc.i686 \
+  gcc-c++ \
+  cmake
+
+WORKDIR /root/gcc
+
+RUN wget http://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.gz &&
+  tar -zxvf gcc-12.2.0.tar.gz --remove-files && cd gcc-12.2.0 &&
+  ./contrib/download_prerequisites && mkdir build && cd build &&
+  ../configure --prefix=/usr/local/gcc-12.2.0 --disable-multilib &&
+  make -j$(nproc) &&
+  make install -j$(nproc)
+
+VOLUME ["/root/gcc"]
+
+WORKDIR /root
+
+# ./configure --prefix=/usr/local/gcc-12.2.0 \
+#   --enable-bootstrap \
+#   --enable-threads=posix \
+#   --enable-checking=release \
+#   --with-system-zlib \
+#   --disable-multilib
